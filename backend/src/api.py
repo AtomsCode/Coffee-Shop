@@ -76,6 +76,7 @@ CORS(app)
 
 
 ## Error Handling
+
 '''
 Example error handling for unprocessable entity
 '''
@@ -88,20 +89,52 @@ def unprocessable(error):
                     }), 422
 
 '''
-@TODO implement error handlers using the @app.errorhandler(error) decorator
-    each error handler should return (with approprate messages):
-             jsonify({
-                    "success": False, 
-                    "error": 404,
-                    "message": "resource not found"
-                    }), 404
-
+#? implement error handlers using the @app.errorhandler(error) decorator
+    each error handler should return (with approprate messages
 '''
-
 '''
-@TODO implement error handler for 404
+#? implement error handler for 404
     error handler should conform to general task above 
 '''
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found." +
+            "The requested page" +
+            "could not be found" +
+            "but may be available again in the future"
+        }), 404
+
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "unprocessable," +
+            "unable to process" +
+            "the contained instructions." +
+            "Error realted to semantically erroneous"
+        }), 422
+
+    @app.errorhandler(400)
+    def bad_syntax(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "The request cannot be fulfilled due to bad syntax"
+        }), 400
+
+    @app.errorhandler(500)
+    def Server_Error(error):
+        return jsonify({
+            "success": False,
+            "error": 500,
+            "message": "Internal Server Error."
+        }), 500
+
 
 
 '''
