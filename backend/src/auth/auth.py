@@ -33,7 +33,9 @@ def get_token_auth_header():
         auth_header = request.headers["Authorization"]
         if auth_header:
             bearer_token_array = auth_header.split(' ')
-            if bearer_token_array[0] and bearer_token_array[0].lower() == "bearer" and bearer_token_array[1]:
+            if (bearer_token_array[0] and
+                    bearer_token_array[0].lower() == "bearer" and
+                    bearer_token_array[1]):
                 return bearer_token_array[1]
     raise AuthError({
         'success': False,
