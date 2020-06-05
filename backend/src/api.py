@@ -43,6 +43,8 @@ def get_drinks():
 # contain the drink.long() data representation
 # returns status code 200 and json {"success": True, "drinks": drinks}
 '''
+
+
 @app.route("/drinks-detail")
 @requires_auth("get:drinks-detail")
 def get_drinks_detail(token):
@@ -61,12 +63,15 @@ def get_drinks_detail(token):
 # contain the drink.long() data representation
 # returns status code 200 and json {"success": True, "drinks": drink}
 '''
+
+
 @app.route("/drinks", methods=['POST'])
 @requires_auth("post:drinks")
 def add_drinks(token):
     if request.data:
         new_drink_data = json.loads(request.data.decode('utf-8'))
-        new_drink = Drink(title=new_drink_data['title'], recipe=json.dumps(new_drink_data['recipe']))
+        new_drink = Drink(title=new_drink_data['title'],
+                          recipe=json.dumps(new_drink_data['recipe']))
         Drink.insert(new_drink)
         drinks = list(map(Drink.long, Drink.query.all()))
         result = {
@@ -84,6 +89,8 @@ def add_drinks(token):
 # contain the drink.long() data representation
 returns status code 200 and json {"success": True, "drinks": drink}
 '''
+
+
 @app.route("/drinks/<drink_id>", methods=['PATCH'])
 @requires_auth("patch:drinks")
 def patch_drinks(token, drink_id):
@@ -109,6 +116,8 @@ def patch_drinks(token, drink_id):
 # require the 'delete:drinks' permission
 # returns status code 200 and json {"success": True, "delete": id}
 '''
+
+
 @app.route("/drinks/<drink_id>", methods=['DELETE'])
 @requires_auth("delete:drinks")
 def delete_drinks(token, drink_id):
@@ -122,7 +131,7 @@ def delete_drinks(token, drink_id):
     return jsonify(result)
 
 
-#? Error Handling Section
+# ? Error Handling Section
 
 @app.errorhandler(422)
 def unprocessable(error):

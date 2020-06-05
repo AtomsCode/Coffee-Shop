@@ -11,6 +11,7 @@ API_AUDIENCE = 'CoffeeAPI'
 
 # AuthError Exception
 
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
@@ -19,12 +20,14 @@ class AuthError(Exception):
 # Auth Header
 '''
 #? get_token_auth_header() method
-# get the header from the request 
+# get the header from the request
 # raise an AuthError if no header is present
 # it split to bearer and the token
 # raise an AuthError if the header is malformed
 # return token part of the header
 '''
+
+
 def get_token_auth_header():
     if "Authorization" in request.headers:
         auth_header = request.headers["Authorization"]
@@ -45,7 +48,8 @@ def get_token_auth_header():
 permission: string permission (i.e. 'post:drink')
 payload: decoded jwt payload
 # raise an AuthError if permissions are not included in the payload
-# raise an AuthError if the requested permission string is not in the payload permissions
+# raise an AuthError if the requested permission string
+is not in the payload permissions
 '''
 
 
@@ -70,6 +74,7 @@ it should be an Auth0 token with key id (kid)
 # should validate the claims
 # return the decoded payload
 '''
+
 
 def verify_decode_jwt(token):
     # GET PUBLIC KEY from  AUTH0
@@ -122,7 +127,7 @@ def verify_decode_jwt(token):
         except jwt.JWTClaimsError:
             raise AuthError({
                 'success': False,
-                'message': 'Incorrect claims. Please, check the audience and issuer',
+                'message': 'Please, check the audience and issuer',
                 'error': 401,
             }, 401)
         except Exception:
@@ -144,9 +149,11 @@ def verify_decode_jwt(token):
 permission: string permission (i.e. 'post:drink')
 # use the get_token_auth_header method to get the token
 # use the verify_decode_jwt method to decode the jwt
-# use the check_permissions method validate claims and check the requested permission
+# use the check_permissions method validate claims
+and check the requested permission
 # return the decorator which passes the decoded payload to the decorated method
 '''
+
 
 def requires_auth(permission=''):
     def requires_auth_decorator(f):
